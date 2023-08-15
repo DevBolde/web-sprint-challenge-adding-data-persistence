@@ -3,14 +3,20 @@ const Projects = require('./model');
 
 const router = express.Router();
 
-router.get('/', async (req, res, next) => {
+router.get('/', async (req, res) => {
   try {
-    const projects = await Projects.getProjects();
-    res.json(projects);
+    const projects = await Projects.getProjects(); // Assuming Project.getProjects() fetches projects from the database
+    const projectsWithProps = projects.map(project => ({
+      project_name: project.project_name,
+      project_description: project.project_description,
+      project_completed: !!project.project_completed, // Convert to boolean
+    }));
+    res.status(200).json(projectsWithProps);
   } catch (error) {
-    next(error)
+    res.status(500).json({ message: 'Error retrieving projects' });
   }
 });
+
 
 router.post('/', async (req, res) => {
   const projectData = req.body;

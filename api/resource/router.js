@@ -15,8 +15,8 @@ router.get('/', async (req, res, next) => {
 
 router.post('/', async (req, res) => {
   const resourceData = req.body;
-  if (!resourceData.project_name) {
-    return res.status(400).json({ message: 'resource is required' });
+  if (!resourceData.resource_name) {
+    return res.status(400).json({ message: 'resource_name is required' });
   }
 
   try {
@@ -27,6 +27,5 @@ router.post('/', async (req, res) => {
   }
 });
 
-// Add other routes and functions for handling project-related requests as needed
 
 module.exports = router;
