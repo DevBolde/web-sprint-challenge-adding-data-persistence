@@ -1,21 +1,15 @@
-// data/seeds/seed_projects.js
-const projectsData = [
-  {
-    project_name: 'Project A',
-    project_description: 'This is Project A description.',
-    project_completed: false,
-  },
-  {
-    project_name: 'Project B',
-    project_description: 'This is Project B description.',
-    project_completed: true,
-  },
-  // Add more projects as needed
-];
 
-exports.seed = async function (knex) {
+exports.seed = function(knex) {
   // Deletes ALL existing entries
-  await knex('projects').truncate()
-  await knex('cars').insert(projectsData)
+  return knex('database').truncate()
+    .then(function () {
+      // Inserts seed entries
+      return knex('database').insert([
+        { project_name: 'Project 1', project_completed: true },
+        { project_name: 'Project 2', project_completed: false },
+        // Add more seed data here
+      ]);
+    });
 };
+
 

@@ -21,17 +21,21 @@ router.get('/', async (req, res) => {
 router.post('/', async (req, res) => {
   const projectData = req.body;
   if (!projectData.project_name) {
-    return res.status(400).json({ message: 'Project name is required' });
+    return res.status(400).json({ message: 'project_name is required' });
   }
-
   try {
     const newProject = await Projects.addProject(projectData);
-    res.status(201).json(newProject);
+res.status(201).json({
+  project_id: newProject.project_id,
+  project_name: newProject.project_name,
+  project_description: newProject.project_description,
+  project_completed: Boolean(newProject.project_completed)
+});
+
   } catch (error) {
-    res.status(500).json({ message: 'Error adding project' });
+    res.status(500).json({ message: error });
   }
 });
 
-// Add other routes and functions for handling project-related requests as needed
 
 module.exports = router;
