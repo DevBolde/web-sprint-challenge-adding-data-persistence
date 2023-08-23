@@ -12,5 +12,6 @@ async function getResource() {
 }
 
 async function addResource(resource) {
-  return knex('resources').insert(resource);
+  const [resource_id] = await knex('resources').insert(resource);
+  return knex('resources').where({ resource_id }).first();
 }
