@@ -14,11 +14,16 @@ router.post('/', async (req, res) => {
 
   try {
     const newTask = await Tasks.addTask(taskData);
+    
+    // Convert task_completed to a boolean
+    newTask.task_completed = Boolean(newTask.task_completed);
+
     res.status(201).json(newTask);
   } catch (error) {
     res.status(500).json({ message: 'Error adding task' });
   }
 });
+
 
 router.get('/', async (req, res) => {
   try {

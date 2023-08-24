@@ -1,6 +1,6 @@
 const db = require('../../data/dbConfig');
 
-function addTask(task) {
+async function addTask(task) {
   return db('tasks')
     .insert(task)
     .then(([task_id]) => {
@@ -8,7 +8,7 @@ function addTask(task) {
     });
 }
 
-function getTasksWithProjectInfo() {
+async function getTasksWithProjectInfo() {
   return db('tasks as t')
     .join('projects as p', 't.project_id', 'p.project_id')
     .select(
@@ -21,7 +21,12 @@ function getTasksWithProjectInfo() {
     );
 }
 
+async function getTasks() {
+  return db('tasks');
+}
+
 module.exports = {
   addTask,
   getTasksWithProjectInfo,
+  getTasks
 };
