@@ -29,19 +29,22 @@ router.post('/', async (req, res) => {
   if (!projectData.project_name) {
     return res.status(400).json({ message: 'project_name is required' });
   }
+
   try {
     const newProject = await Projects.addProject(projectData);
-    // Convert project_completed to a boolean
-    newProject.project_completed = Boolean(newProject.project_completed);
+    
+    const response = {
+      project_completed: Boolean(newProject.project_completed),
+      project_description: newProject.project_description,
+      project_name: newProject.project_name,
+    };
 
-    res.status(201).json(newProject);
+    res.status(201).json(response);
+    console.log(res.body)
   } catch (error) {
     res.status(500).json({ message: 'Error adding project' });
   }
 });
-
-
-
 
 
 module.exports = router;

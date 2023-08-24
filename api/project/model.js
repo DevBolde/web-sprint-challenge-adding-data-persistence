@@ -14,6 +14,11 @@ async function addProject(project) {
   // Convert project_completed to a boolean before insertion
   project.project_completed = Boolean(project.project_completed);
 
-  return knex('projects').insert(project);
+  return knex('projects')
+    .insert(project)
+    .then(([project_id]) => {
+      return knex('projects').where('project_id', project_id).first();
+    });
 }
+
 
