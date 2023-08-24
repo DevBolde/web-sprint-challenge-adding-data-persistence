@@ -3,6 +3,20 @@ const Tasks = require('./model'); // Make sure to import the appropriate model
 
 const router = express.Router();
 
+
+
+
+
+router.get('/', async (req, res) => {
+  try {
+    const tasks = await Tasks.getTasksWithProjectInfo();
+    res.status(200).json(tasks);
+  } catch (error) {
+    res.status(500).json({ message: 'Error retrieving tasks' });
+  }
+});
+
+
 router.post('/', async (req, res) => {
   const taskData = req.body;
   if (!taskData.task_description || !taskData.project_id) {
@@ -24,14 +38,5 @@ router.post('/', async (req, res) => {
   }
 });
 
-
-router.get('/', async (req, res) => {
-  try {
-    const tasks = await Tasks.getTasksWithProjectInfo();
-    res.status(200).json(tasks);
-  } catch (error) {
-    res.status(500).json({ message: 'Error retrieving tasks' });
-  }
-});
 
 module.exports = router;
